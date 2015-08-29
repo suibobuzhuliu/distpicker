@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>省市区联动下拉菜单</title>
+  <link rel="stylesheet" type="text/css" href="https://o2o.gtimg.com/tmt/mp-ibeacon/css/style-mp-ibeacon.css?1" />
+</head>
+<body>
+	<div data-toggle="distpicker">
+		<select data-province="---- 选择省 ----" id="provice"></select>
+		<select data-city="---- 选择市 ----" id="city"></select>
+		<select data-district="---- 选择区 ----" id="area"></select>
+	</div>
+
+                        <div class="mod-dropdown-menu ui-fl-l ui-mr-medium" id="provice2">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="plabel">北京</label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list">
+                                <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mod-dropdown-menu  ui-fl-l ui-mr-medium" id="city2">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="clabel"></label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list">
+                                <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li>
+      
+                            </ul>
+                        </div>
+                        <div class="mod-dropdown-menu ui-fl-l ui-mr-medium" id="area2">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="alabel"></label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list">
+                                <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li>
+                            </ul>
+                        </div>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="src/distpicker.data.js"></script>
+<script type="text/javascript" src="src/distpicker.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#plabel").html($("#provice").val());
+	$("#clabel").html($("#city").val());
+	$("#alabel").html($("#area").val());
+	var provice2 = $("#provice2"),
+		city2 = $("#city2"),
+		area2 = $("#area2");
+	renderProvice();
+	renderCity();
+	renderArea();
+function renderProvice(){
+	var proviceOptions = $("#provice").get(0).options;
+	$("#provice2 ul").empty()
+	for(var i=0;i<35;i++){
+		var list = '<li class="mod-dropdown-menu__item"><a href="javascript:void(0);" index="'+ i +'" data-zipcode="'+ $(proviceOptions[i]).attr("data-zipcode") +'" value="'+ $(proviceOptions[i]).attr("value")+'">'+ proviceOptions[i].text + '</a></li>';
+		$("#provice2 ul").append(list);
+	}
+}
+function renderCity(){
+	var cityOptions = $("#city").get(0).options;
+		$("#city2 ul").empty()
+		for(var i=0;i<cityOptions.length;i++){
+			var list = '<li class="mod-dropdown-menu__item"><a href="javascript:void(0);" index="'+ i +'" data-zipcode="'+ $(cityOptions[i]).attr("data-zipcode") +'" value="'+ $(cityOptions[i]).attr("value")+'">'+ cityOptions[i].text + '</a></li>';
+			$("#city2 ul").append(list);
+		}	
+}
+function renderArea(){
+	var areaOptions = $("#area").get(0).options;
+		$("#area2 ul").empty()
+		for(var i=0;i<areaOptions.length;i++){
+			var list = '<li class="mod-dropdown-menu__item"><a href="javascript:void(0);" index="'+ i +'" data-zipcode="'+ $(areaOptions[i]).attr("data-zipcode") +'" value="'+ $(areaOptions[i]).attr("value")+'">'+ areaOptions[i].text + '</a></li>';
+			$("#area2 ul").append(list);
+		}
+}
+var ZX = {
+	"北京":"",
+	"上海":"",
+	"天津":"",
+	"重庆":""
+};
+$(document).on("change","#provice",function(){
+	var provice = $("#provice").val();
+	if(provice in ZX){//直辖市
+		console.log(provice);
+		$("#city2").hide();
+		renderArea();
+	}else{
+		$("#city2").show();
+
+		renderCity();
+		renderArea();
+	}
+	$("#clabel").html($("#city").val());
+	$("#alabel").html($("#area").val());	
+});
+$(document).on("change","#city",function(){
+		$("#alabel").html($("#area").val());
+		var areaOptions = $("#area").get(0).options;
+		$("#area2 ul").empty()
+		for(var i=1;i<areaOptions.length;i++){
+			var list = '<li class="mod-dropdown-menu__item"><a href="javascript:void(0);" index="'+ i +'" data-zipcode="'+ $(areaOptions[i]).attr("data-zipcode") +'" value="'+ $(areaOptions[i]).attr("value")+'">'+ areaOptions[i].text + '</a></li>';
+			$("#area2 ul").append(list);
+		}
+});
+
+//点击展开下拉列表
+$(document).on("click","#plabel",handler);
+$(document).on("click","#clabel",handler);
+$(document).on("click","#alabel",handler);
+function handler(event){
+	var _this = $(event.target).parents("div.mod-dropdown-menu");
+	if(!_this.hasClass("mod-dropdown-menu_show")){
+		_this.addClass("mod-dropdown-menu_show");
+	}else{
+		_this.removeClass("mod-dropdown-menu_show");
+	}
+}
+//选择省份
+$(document).on("click","#provice2 ul li a",function(){
+	var index = $(this).attr("index"),
+		value = $(this).html();
+	provice2.removeClass("mod-dropdown-menu_show");
+	$("#plabel").html(value);
+	$("#provice").get(0).selectedIndex = index;
+	$("#provice").trigger("change");
+});
+//选择城市
+$(document).on("click","#city2 ul li a",function(){
+	var index = $(this).attr("index"),
+		value = $(this).html();
+	console.log(index);
+	city2.removeClass("mod-dropdown-menu_show");
+	$("#clabel").html(value);
+	$("#city").get(0).selectedIndex = index;
+	$("#city").trigger("change");
+});
+//选择地区
+$(document).on("click","#area2 ul li a",function(){
+	var index = $(this).attr("index"),
+		value = $(this).html();
+	console.log(value);
+	area2.removeClass("mod-dropdown-menu_show");
+	$("#alabel").html(value);
+	$("#area").get(0).selectedIndex = index;
+	$("#area").trigger("change");
+});
+
+});
+
+
+</script>
+</body>
+</html>

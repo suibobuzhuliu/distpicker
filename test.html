@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>省市区联动下拉菜单</title>
+  <link rel="stylesheet" type="text/css" href="https://o2o.gtimg.com/tmt/mp-ibeacon/css/style-mp-ibeacon.css?1" />
+</head>
+<body>
+	<div >
+		<select data-province="---- 选择省 ----" id=""></select>
+		<select data-city="---- 选择市 ----" id="city"></select>
+		<select data-district="---- 选择区 ----" id="area"></select>
+	</div>
+					<div data-toggle="distpicker">
+                        <div class="mod-dropdown-menu ui-fl-l ui-mr-medium">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="plabel">选择省</label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list" data-province="选择省" id="province">
+                               <!--  <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                        <div class="mod-dropdown-menu ui-fl-l ui-mr-medium" id="city2">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="clabel">选择市</label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list" data-city="选择市" id="city">
+                                <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li>
+      
+                            </ul>
+                        </div>
+                        <div class="mod-dropdown-menu ui-fl-l ui-mr-medium" id="area2">
+                            <a href="javascript:void(0);" class="button mod-dropdown-menu__switch">
+                                <label class="mod-dropdown-menu__label" id="alabel">选择区</label>
+                                <i class="mod-dropdown-menu__arrow"></i>
+                            </a>
+                            <ul class="mod-dropdown-menu__list" data-district="选择区" id="city">
+                                <li class="mod-dropdown-menu__item">
+                                    <a href="javascript:void(0);">选项1</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript" src="src/distpicker.data.js"></script>
+<script type="text/javascript" src="distpicker.js"></script>
+
+<script type="text/javascript">
+
+$(document).on("click",".mod-dropdown-menu__label",function(event){
+	var _this = $(event.target).parents("div.mod-dropdown-menu");
+	if(!_this.hasClass("mod-dropdown-menu_show")){
+		_this.addClass("mod-dropdown-menu_show");
+	}else{
+		_this.removeClass("mod-dropdown-menu_show");
+	}
+});
+
+</script>
+</body>
+</html>
